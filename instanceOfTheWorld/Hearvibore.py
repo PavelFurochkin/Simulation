@@ -1,6 +1,9 @@
 from action.Coordinates import Coordinates
+from action.SelectionOfAction import Selection
 
 from instanceOfTheWorld.Creature import Creature
+from instanceOfTheWorld.Grass import Grass
+from map import Map
 
 
 class Hearvibore(Creature):
@@ -10,11 +13,15 @@ class Hearvibore(Creature):
         self.health = health
         self.spead = spead
 
-    def set_start_position(self):
-        pass
-
-
     def make_move(self, digit: int):
-        pass
+        super().make_move(digit)
+        if 9 <= digit <= 16:  # Диапазон соседних клеток для атаки
+            select_position = Selection(self.coordinates)  # Выбираем клетку для взаимодействия
+            attack_sprite: tuple = select_position.interact(digit)  # Выбираем соседнюю клетку для атаки
+            target_entity = Map.checkSpotNotEmpty(*attack_sprite)  # Проверяем что клетка не пустая
+            if target_entity is not None and isinstance(target_entity, Grass):  # Если на клетке травоядное атакуем
+                Map.meeting(self, target_entity)
+            else:
+                pass
 
 

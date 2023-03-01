@@ -1,5 +1,3 @@
-from typing import Type
-
 from action.Coordinates import Coordinates
 from instanceOfTheWorld.Entity import Entity
 from instanceOfTheWorld.Grass import Grass
@@ -32,29 +30,18 @@ class Map:
         """
         self.map.pop(position, "на данной клетке нет существ.")
 
-    def meeting(self, first_entity: Entity, second_entity: Entity):
+    def meeting(self, first_entity: Entity, second_entity: Entity) -> None:
+        """
+        Метод моделирует взаимодействие представителей пищевых цепочек
+        """
         if first_entity is isinstance(first_entity, Predator) and second_entity is isinstance(second_entity, Hearvibore):
-            second_entity.health -= 2
+            second_entity.health -= 2  # Хищник нападает на травоядное
             if second_entity.health == 0:
                 self.delete(second_entity.coordinates)
         if first_entity is isinstance(first_entity, Hearvibore) and second_entity is isinstance(second_entity, (Grass, Tree)):
-            second_entity.health -= 5
+            second_entity.health -= 5  # Травоядное ест траву
             if second_entity.health == 0:
                 self.delete(second_entity.coordinates)
-
-
-
-    def move(self, old_position: Coordinates, new_position: Coordinates) -> Coordinates:
-        """
-        Присваивает существу новые координаты на карте, старые удаляются
-        """
-        if self.checkSpotNotEmpty(old_position):
-            entity = self.map[old_position]  # Присваиваем переменой старые координаты
-        if
-        entity.coordinates = new_position  # Обновляем координаты существа
-        self.map[new_position] = entity  # Присваиваем переменой старые координаты
-        return new_position
-
 
 
 #
