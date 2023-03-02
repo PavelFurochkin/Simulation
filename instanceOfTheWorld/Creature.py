@@ -1,8 +1,8 @@
 from abc import abstractmethod
 
-from action.SelectionOfAction import Selection
+import action.SelectionOfAction as Selection
 
-from instanceOfTheWorld.Entity import Entity
+import instanceOfTheWorld.Entity as Entity
 
 
 class Creature(Entity):
@@ -13,6 +13,6 @@ class Creature(Entity):
 
     @abstractmethod
     def make_move(self, digit: int):
-        select_position = Selection(self.coordinates)  # Выбираем клетку для взаимодействия
+        select_position = Selection.Selection(self.coordinates)  # Выбираем клетку для взаимодействия
         if 0 <= digit <= 8:  # Диапазон соседних клеток для перемещения
             self.coordinates = select_position.interact(digit)  # Перешагиваем на новую клетку

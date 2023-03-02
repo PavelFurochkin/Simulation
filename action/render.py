@@ -1,9 +1,9 @@
 from instanceOfTheWorld.Grass import Grass
-from instanceOfTheWorld.Hearvibore import Hearvibore
+from instanceOfTheWorld.Herbivore import Hearvibore
 from instanceOfTheWorld.Predator import Predator
 from instanceOfTheWorld.Rock import Rock
 from instanceOfTheWorld.Tree import Tree
-from map import Map
+from instanceOfTheWorld.Map import Map
 
 from action.Coordinates import Coordinates
 

@@ -2,17 +2,16 @@ import action.Coordinates as Coordinates
 import action.SelectionOfAction as Selection
 
 import instanceOfTheWorld.Creature as Creature
-import instanceOfTheWorld.Herbivore as Herbivore
+import instanceOfTheWorld.Grass as Grass
 import instanceOfTheWorld.Map as Map
 
 
-class Predator(Creature):
+class Hearvibore(Creature):
     def __init__(self, coordinates: Coordinates = Coordinates.Coordinates(row=0, column=0),
-                 spead: int = 3, health: int = 10, fight_power: int = 2):
+                 spead: int = 5, health: int = 20):
         super().__init__(coordinates, spead, health)
         self.health = health
         self.spead = spead
-        self.fight_power: int = fight_power
 
     def make_move(self, digit: int):
         super().make_move(digit)
@@ -20,11 +19,10 @@ class Predator(Creature):
             select_position = Selection.Selection(self.coordinates)  # Выбираем клетку для взаимодействия
             attack_sprite: tuple = select_position.interact(digit)  # Выбираем соседнюю клетку для атаки
             target_entity = Map.Map.checkSpotNotEmpty(*attack_sprite)  # Проверяем что клетка не пустая
-            if target_entity is not None and isinstance(target_entity, Herbivore.Hearvibore):  # Если на клетке травоядное атакуем
+            if target_entity is not None and isinstance(target_entity, Grass.Grass):  # Если на клетке травоядное атакуем
+                # Map.meeting(self, target_entity)
                 pass
-                # map.Map.meeting(self, target_entity)
             else:
                 pass
-
 
 
