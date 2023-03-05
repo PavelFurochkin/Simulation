@@ -1,3 +1,6 @@
+from . import Creature, Coordinates, Selection, Map, Grass
+
+
 class Hearvibore(Creature):
     def __init__(self, coordinates: Coordinates = Coordinates(row=0, column=0),
                  spead: int = 5, health: int = 20):

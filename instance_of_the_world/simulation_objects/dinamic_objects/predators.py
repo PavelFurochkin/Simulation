@@ -1,3 +1,6 @@
+from . import Map,  Coordinates,  Selection, Hearvibore,  Creature
+
+
 class Predator(Creature):
     def __init__(self, coordinates: Coordinates = Coordinates(row=0, column=0),
                  spead: int = 3, health: int = 10, fight_power: int = 2):
@@ -15,7 +18,3 @@ class Predator(Creature):
             target_entity = field.check_spot_not_empty(*attack_sprite)  # Проверяем что клетка не пустая
             if target_entity is not None and isinstance(target_entity, Hearvibore):  # Если на клетке травоядное атакуем
                 field.meeting(self, target_entity)
-
-
-
-
