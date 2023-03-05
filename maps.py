@@ -1,25 +1,25 @@
-import action.Coordinates as Coordinates
+from action.Coordinates import Coordinates
 
-import instanceOfTheWorld.Entity as Entity
-import instanceOfTheWorld.Grass as Grass
-import instanceOfTheWorld.Herbivore as Herbivore
-import instanceOfTheWorld.Predator as Predator
-import instanceOfTheWorld.Tree as Tree
+from instance_of_the_world.entitys import Entity
+from instance_of_the_world.simulation_objects.static_objects.grass import Grass
+from instance_of_the_world.simulation_objects.dinamic_objects.herbivores import Hearvibore
+from instance_of_the_world.simulation_objects.dinamic_objects.predators import Predator
+from instance_of_the_world.simulation_objects.static_objects.trees import Tree
 
 
 class Map:
     def __init__(self):
         self.map = {}
 
-    def add(self, position: Coordinates, entity: Entity.Entity) -> None:
+    def add(self, position: Coordinates, entity: Entity) -> None:
         """
         Метод добавляет сушество по заданной координате в словарь
         """
-        if isinstance(entity, Entity.Entity):
+        if isinstance(entity, Entity):
             self.map[position] = entity
             entity.coordinates = position
 
-    def checkSpotNotEmpty(self, position: Coordinates) -> Entity:
+    def check_spot_not_empty(self, position: Coordinates) -> Entity:
         """
         Проверяет есть ли на клетке существо
         """
@@ -35,19 +35,21 @@ class Map:
         """
         Метод моделирует взаимодействие представителей пищевых цепочек
         """
-        if first_entity is isinstance(first_entity, Predator.Predator) and second_entity is isinstance(second_entity, Herbivore.Hearvibore):
+        if first_entity is isinstance(first_entity, Predator) and second_entity is isinstance(second_entity, Hearvibore):
             second_entity.health -= 2  # Хищник нападает на травоядное
+            first_entity.health += 2
             if second_entity.health == 0:
                 self.delete(second_entity.coordinates)
-        if first_entity is isinstance(first_entity, Herbivore.Hearvibore) and second_entity is isinstance(second_entity, (Grass.Grass, Tree.Tree)):
+        if first_entity is isinstance(first_entity, Hearvibore) and second_entity is isinstance(second_entity, (Grass, Tree)):
             second_entity.health -= 5  # Травоядное ест траву
+            first_entity.health += 2
             if second_entity.health == 0:
                 self.delete(second_entity.coordinates)
 
 
 
 m1 = Map()
-e1 = Predator.Predator()
-m1.add(Coordinates.Coordinates(1, 4), e1)
-f1 = m1.checkSpotNotEmpty(Coordinates.Coordinates(1, 4))
-print(m1.checkSpotNotEmpty(Coordinates.Coordinates(1, 4)))
+e1 = Predator()
+m1.add(Coordinates(1, 4), e1)
+f1 = m1.check_spot_not_empty(Coordinates(1, 4))
+print(m1.check_spot_not_empty(Coordinates(1, 4)))

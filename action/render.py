@@ -1,9 +1,9 @@
-from instanceOfTheWorld.Grass import Grass
-from instanceOfTheWorld.Herbivore import Hearvibore
-from instanceOfTheWorld.Predator import Predator
-from instanceOfTheWorld.Rock import Rock
-from instanceOfTheWorld.Tree import Tree
-from instanceOfTheWorld.Map import Map
+from instance_of_the_world import Grass
+from instance_of_the_world import Hearvibore
+from instance_of_the_world import Predator
+from instance_of_the_world import Rock
+from instance_of_the_world import Tree
+from maps import Map
 
 from action.Coordinates import Coordinates
 
@@ -14,7 +14,7 @@ class RenderField:
         for row in range(10):
             for column in range(10):
                 c = Coordinates(row, column)
-                entity_check = field.checkSpotNotEmpty(c)
+                entity_check = field.check_spot_not_empty(c)
                 if c in field and isinstance(entity_check, Predator):
                     print('Pr')
                 elif c in field and isinstance(entity_check, Hearvibore):

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from instanceOfTheWorld.Entity import Entity
+from instance_of_the_world.entitys import Entity
 
 
 @dataclass(frozen=True)
