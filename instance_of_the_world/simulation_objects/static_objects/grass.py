@@ -1,9 +1,10 @@
-from dataclasses import dataclass
-
 from instance_of_the_world.entitys import Entity
 
 
-@dataclass(frozen=True)
 class Grass(Entity):
-    SPEAD: int = 0
-    health: int = 100
+
+    def __init__(self, coordinates):
+        super().__init__(coordinates)
+        self.SPEAD: int = 0
+        self.health: int = 100
+        self.sprite = 'Gr'

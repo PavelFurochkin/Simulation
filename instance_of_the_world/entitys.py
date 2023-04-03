@@ -1,16 +1,14 @@
 from abc import ABC
 from random import randint
 
-from action.Coordinates import Coordinates
+from map.coordinates import Coordinates
 
 
 class Entity(ABC):
-    quantity: int = 0  # Количество объектов на поле
-
     def __init__(self, coordinates: Coordinates = Coordinates(row=0, column=0)):
         self.coordinates = coordinates
-        # self.identifier = id(self)
+        self.sprite = ' '
 
-    def set_start_position(self):
-        self.coordinates = Coordinates(row=randint(1, 20),
-                                                   column=randint(1, 20))
+    def set_start_position(self) -> Coordinates:
+        self.coordinates = Coordinates(row=randint(1, 20), column=randint(1, 20))
+        return Coordinates(self.coordinates.row, self.coordinates.column)
