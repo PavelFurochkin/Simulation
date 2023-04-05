@@ -1,5 +1,5 @@
 from instance_of_the_world.simulation_objects.static_objects import Grass, Tree, Rock
-from instance_of_the_world.simulation_objects.dinamic_objects import Hearvibore, Predator
+from instance_of_the_world.simulation_objects.dinamic_objects import Herbivore, Predator
 from instance_of_the_world.entitys import Entity
 from action.selection_of_action import Selection
 from map.coordinates import Coordinates
@@ -34,14 +34,14 @@ class Actions:
         Метод моделирует взаимодействие представителей пищевых цепочек
         """
         if (first_entity is isinstance(first_entity, Predator) and
-                second_entity is isinstance(second_entity, Hearvibore)):
+                second_entity is isinstance(second_entity, Herbivore)):
             second_entity.health -= 2  # Хищник нападает на травоядное
             first_entity.health += 2
             if second_entity.health == 0:
                 self.field.delete(second_entity.coordinates)
 
-        elif (first_entity is isinstance(first_entity, Hearvibore) and
-                second_entity is isinstance(second_entity, (Grass, Tree))):
+        elif (first_entity is isinstance(first_entity, Herbivore) and
+              second_entity is isinstance(second_entity, (Grass, Tree))):
             second_entity.health -= 5  # Травоядное ест траву
             first_entity.health += 2
             if second_entity.health == 0:
@@ -53,8 +53,8 @@ class Actions:
                 and first_entity.gender != second_entity.gender):
             self.field.add(Entity().set_start_position(), first_entity)
 
-        elif (first_entity is isinstance(first_entity, Hearvibore)
-                and second_entity is isinstance(second_entity, Hearvibore)
+        elif (first_entity is isinstance(first_entity, Herbivore)
+                and second_entity is isinstance(second_entity, Herbivore)
                 and first_entity.gender != second_entity.gender):
             self.field.add(Entity().set_start_position(), first_entity)
 

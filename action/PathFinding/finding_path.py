@@ -62,10 +62,8 @@ class FindPath:
                 if (self.__field.get_object(self.__actual_node.row,
                                             self.__actual_node.column).sprite
                         == self.__pray.sprite):
-                    pass
-                    """
-                    Здесь я хочу вызвать метод create_path из файла CurrentNode
-                    """
+                    Node(self.__field, self.__actual_node).create_path(
+                        Node(self.__field, self.__actual_node))
                     # Если клетка пустая, то добавляем в очередь
                 elif (self.__field.spot_is_empty(
                         Coordinates(self.__actual_node.row,
