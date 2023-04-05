@@ -21,7 +21,7 @@ class Map:
             self.map[position] = entity
             entity.coordinates = position
 
-    def spot_is_empty(self, position: Coordinates) -> Entity:
+    def spot_is_empty(self, position: Coordinates) -> bool:
         """
         Проверяет есть ли на клетке существо
         """
@@ -42,3 +42,4 @@ class Map:
 
     def __iter__(self):
         return iter(self.map)
+

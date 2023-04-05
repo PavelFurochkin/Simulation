@@ -4,6 +4,7 @@ from action.PathFinding.CurrentNode import Node
 from instance_of_the_world.entitys import Entity
 from map.coordinates import Coordinates
 from map.maps import Map
+from render.render import RenderField
 
 
 class FindPath:
@@ -53,22 +54,29 @@ class FindPath:
         Метод для поиска пути от охотника до цели
         :return:
         '''
+        RenderField().render(self.__field)
+        tray = 0
         while True:
             if len(self.__neighbours_queue) > 0:
                 # Берем крайний левый адрес из очереди
                 self.__actual_node = self.__neighbours_queue.popleft()
                 self.__visited_spot.add(self.__actual_node)
+
+                # Если клетка пустая, то добавляем в очередь
+                if (self.__field.spot_is_empty(
+                    Coordinates(self.__actual_node.row,
+                                self.__actual_node.column)) or tray == 0):
+                    self.filling_queue(self.__actual_node)
+                    tray += 1
                 # Проверяем что выбранная клетка является жертвой
-                if (self.__field.get_object(self.__actual_node.row,
+                elif (self.__field.get_object(self.__actual_node.row,
                                             self.__actual_node.column).sprite
                         == self.__pray.sprite):
-                    Node(self.__field, self.__actual_node).create_path(
-                        Node(self.__field, self.__actual_node))
-                    # Если клетка пустая, то добавляем в очередь
-                elif (self.__field.spot_is_empty(
-                        Coordinates(self.__actual_node.row,
-                                    self.__actual_node.column))):
                     self.filling_queue(self.__actual_node)
+                    path = Node(self.__field, self.__actual_node).create_path(
+                        Node(self.__field, self.__actual_node))
+                    print(path)
+                    break
 
     def filling_queue(self, spot: Coordinates):
         nodes = Node(self.__field, spot).extend_node()

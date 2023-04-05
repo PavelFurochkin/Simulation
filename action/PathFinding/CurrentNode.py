@@ -51,8 +51,8 @@ class Node:
         ]
         children: List = []
         for neighbour in neighbours_node:
-            if ((0 <= self.row + neighbour[0] < self.__map.row_map + 1) and
-                    (0 <= self.column + neighbour[1] < self.__map.column_map + 1)):
+            if ((0 < self.row + neighbour[0] < self.__map.row_map + 1) and
+                    (0 < self.column + neighbour[1] < self.__map.column_map + 1)):
                 right_neighbor = Node(self.__map,
                                       (Coordinates(self.row + neighbour[0],
                                                    self.column + neighbour[1]))
@@ -72,7 +72,7 @@ class Node:
         path = []
         current_node = final_node
         while current_node.__parent is not None:
-            path.insert(0, (current_node.row, current_node.column))
+            path.insert(0, (current_node.__parent.row, current_node.__parent.column))
             current_node = current_node.__parent
         path.insert(0, (current_node.row, current_node.column))
         path.reverse()
