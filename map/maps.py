@@ -1,3 +1,5 @@
+from typing import List
+
 from instance_of_the_world.simulation_objects.dinamic_objects import Predator
 from map.coordinates import Coordinates
 from instance_of_the_world.entitys import Entity
@@ -39,6 +41,16 @@ class Map:
         Удаляет существо по заданной позиции
         """
         self.map.pop(position, "на данной клетке нет существ.")
+
+    def counting_population(self):
+        population = []
+        for spot in self.map:
+            entity: Entity = self.get_object(spot.row_map, spot.column_map)
+            if entity is not None:
+                population.append(entity)
+        return population
+
+
 
     def __iter__(self):
         return iter(self.map)

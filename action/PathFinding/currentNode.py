@@ -1,3 +1,4 @@
+from collections import deque
 from typing import List
 
 from map.coordinates import Coordinates
@@ -62,18 +63,18 @@ class Node:
             child.__parent = self
         return children
 
-    def create_path(self, final_node) -> List:
+    def create_path(self, final_node) -> deque:
         """
         Добавляет в список путь от заданной точки до цели и инвертирует его
         :param
         final_node: клетка с местоположением цели
         :return: список координат до цели
         """
-        path = []
+        path = deque()
         current_node = final_node
         while current_node.__parent is not None:
-            path.insert(0, (current_node.__parent.row, current_node.__parent.column))
+            path.insert(0, (current_node.row, current_node.column))
             current_node = current_node.__parent
         path.insert(0, (current_node.row, current_node.column))
-        path.reverse()
+        path.popleft()
         return path

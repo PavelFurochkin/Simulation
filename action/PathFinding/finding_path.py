@@ -1,6 +1,7 @@
 from collections import deque
+from typing import TypeVar, Type
 
-from action.PathFinding.CurrentNode import Node
+from action.PathFinding.currentNode import Node
 from instance_of_the_world.entitys import Entity
 from map.coordinates import Coordinates
 from map.maps import Map
@@ -38,9 +39,9 @@ class FindPath:
     """
 
     def __init__(self, hunter: Entity = None,
-                 pray: Entity = None, field: Map = None):
+                 pray=None, field: Map = None):
         self.__hunter: Entity = hunter
-        self.__pray: Entity = pray
+        self.__pray = TypeVar('__pray', bound=pray)
         self.__field: Map = field
         self.__visited_spot = set()
         self.__neighbours_queue = deque()
@@ -70,16 +71,15 @@ class FindPath:
                     tray += 1
                 # Проверяем что выбранная клетка является жертвой
                 elif (self.__field.get_object(self.__actual_node.row,
-                                            self.__actual_node.column).sprite
+                                              self.__actual_node.column).sprite
                         == self.__pray.sprite):
                     self.filling_queue(self.__actual_node)
-                    path = Node(self.__field, self.__actual_node).create_path(
-                        Node(self.__field, self.__actual_node))
-                    print(path)
-                    break
+                    path: deque = (self.__actual_node.
+                                   create_path(self.__actual_node))
+                    return path
 
-    def filling_queue(self, spot: Coordinates):
-        nodes = Node(self.__field, spot).extend_node()
+    def filling_queue(self, spot: Node):
+        nodes = spot.extend_node()
         for node in nodes:
             if (node not in self.__visited_spot and
                     self.__field.spot_is_empty(node)):
