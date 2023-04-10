@@ -45,12 +45,10 @@ class Map:
     def counting_population(self):
         population = []
         for spot in self.map:
-            entity: Entity = self.get_object(spot.row_map, spot.column_map)
+            entity: Entity = self.get_object(spot.row, spot.column)
             if entity is not None:
                 population.append(entity)
         return population
-
-
 
     def __iter__(self):
         return iter(self.map)

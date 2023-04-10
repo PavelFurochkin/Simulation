@@ -41,7 +41,7 @@ class FindPath:
     def __init__(self, hunter: Entity = None,
                  pray=None, field: Map = None):
         self.__hunter: Entity = hunter
-        self.__pray = TypeVar('__pray', bound=pray)
+        self.__pray: Type[Entity] = pray
         self.__field: Map = field
         self.__visited_spot = set()
         self.__neighbours_queue = deque()

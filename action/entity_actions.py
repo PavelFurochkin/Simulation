@@ -20,7 +20,7 @@ class Action:
                 else:
                     break
             # Если на клетке допустимое существо - взаимодействуем
-        elif not isinstance(entity, (Rock, Tree, Grass)):
+        elif not isinstance(entity, Rock):
             _pray_coordinate = path.popleft()
             _pray = self.field.get_object(_pray_coordinate[0], _pray_coordinate[1])
             self.__meeting(entity, _pray)

@@ -1,32 +1,46 @@
-from collections import deque
-from typing import List
-
 from action.PathFinding.finding_path import FindPath
 from action.entity_actions import Action
 from instance_of_the_world.simulation_objects.dinamic_objects import Herbivore, Predator
 from instance_of_the_world.simulation_objects.static_objects import Grass, Tree
-from map.coordinates import Coordinates
 from map.maps import Map
 
 
 class LiveCycle:
     """
+    Класс для запуска симуляции
+
+        ...
+
+    Attribute
+    ---------
+    self.map = map
+        содержит текущую карту
+    self.current_population = map.counting_population()
+        содержит набор изначальный набор существ на карте
+
+    Methods
+    -------
+    endless_loop(self)
+        Метод запускает бесконечную симуляцию на карте
+
+    meaninglessness_of_being(self)
+        метод для проверки что на карте есть травоядные и можно продолжать симуляцию.
     """
+
     def __init__(self, map: Map):
         self.map = map
+        self.current_population = map.counting_population()
 
     def endless_loop(self):
         while not self.meaninglessness_of_being():
-            current_population = self.map.counting_population()
-            for entity in current_population:
+            for entity in self.current_population:
                 if isinstance(entity, Predator):
                     path = FindPath(entity, Herbivore, self.map).finding_path()
                     Action(self.map).make_move(entity, path)
                 if isinstance(entity, Herbivore):
-                    path = (FindPath(entity, (Tree, Grass), self.map).
+                    path = (FindPath(entity, Grass, self.map).
                             finding_path())
                     Action(self.map).make_move(entity, path)
-
 
     def step_of_loop(self):
         pass
@@ -38,16 +52,12 @@ class LiveCycle:
         pass
 
     def meaninglessness_of_being(self):
-        pass
+        herbivore_population = 0
+        check_population: list = self.map.counting_population()
+        for entity in check_population:
+            if isinstance(entity, Herbivore):
+                herbivore_population += 1
 
-m = Map(5,5)
-p = Predator()
-h = Herbivore()
-m.add(Coordinates(1, 1), p)
-m.add(Coordinates(3, 3), h)
-
-p.successful_hunting = 4
-l = [p]
-s = LiveCycle(m, l)
-dd = s.endless_loop()
-print(dd)
+        if herbivore_population < 1:
+            return True
+        return False
