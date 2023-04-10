@@ -9,8 +9,7 @@ class RenderField:
         line = ''
         for row in range(1, field.row_map + 1):
             for column in range(1, field.column_map + 1):
-                c = Coordinates(row, column)
-                entity_check = field.get_object(c.row, c.column)
+                entity_check = field.get_object(Coordinates(row, column))
                 if entity_check is not None:
                     line += f'|_{entity_check.sprite}_|'
                 else:

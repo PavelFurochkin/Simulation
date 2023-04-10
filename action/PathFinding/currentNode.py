@@ -27,8 +27,7 @@ class Node:
     """
 
     def __init__(self, map: Map, point: Coordinates):
-        self.row = point.row
-        self.column = point.column
+        self.point = point
         self.__map = map
         self.__parent = None
 
@@ -52,11 +51,11 @@ class Node:
         ]
         children: List = []
         for neighbour in neighbours_node:
-            if ((0 < self.row + neighbour[0] < self.__map.row_map + 1) and
-                    (0 < self.column + neighbour[1] < self.__map.column_map + 1)):
+            if ((0 < self.point.row + neighbour[0] < self.__map.row_map + 1) and
+                    (0 < self.point.column + neighbour[1] < self.__map.column_map + 1)):
                 right_neighbor = Node(self.__map,
-                                      (Coordinates(self.row + neighbour[0],
-                                                   self.column + neighbour[1]))
+                                      (Coordinates(self.point.row + neighbour[0],
+                                                   self.point.column + neighbour[1]))
                                       )
                 children.append(right_neighbor)
         for child in children:
@@ -73,8 +72,8 @@ class Node:
         path = deque()
         current_node = final_node
         while current_node.__parent is not None:
-            path.insert(0, (current_node.row, current_node.column))
+            path.insert(0, (current_node.point.row, current_node.point.column))
             current_node = current_node.__parent
-        path.insert(0, (current_node.row, current_node.column))
+        path.insert(0, (current_node.point.row, current_node.point.column))
         path.popleft()
         return path

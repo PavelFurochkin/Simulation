@@ -58,6 +58,6 @@ class LiveCycle:
             if isinstance(entity, Herbivore):
                 herbivore_population += 1
 
-        if herbivore_population < 1:
+        if herbivore_population == 0:
             return True
         return False

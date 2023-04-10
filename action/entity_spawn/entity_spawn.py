@@ -1,7 +1,6 @@
 from random import randint
 
 from instance_of_the_world.entitys import Entity
-from instance_of_the_world.simulation_objects.dinamic_objects import Herbivore, Predator
 from map.coordinates import Coordinates
 from map.maps import Map
 

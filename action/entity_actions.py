@@ -3,6 +3,7 @@ from collections import deque
 from instance_of_the_world.simulation_objects.static_objects import Grass, Tree, Rock
 from instance_of_the_world.simulation_objects.dinamic_objects import Herbivore, Predator
 from instance_of_the_world.entitys import Entity
+from map.coordinates import Coordinates
 from map.maps import Map
 
 
@@ -16,13 +17,16 @@ class Action:
         if len(path) > 1:
             for move in range(entity.spead):
                 if len(path) > 1:
-                    entity.coordinates = path.popleft
+                    step = path.popleft()
+                    self.field.move_object(entity, entity.coordinates, step)
                 else:
                     break
             # Если на клетке допустимое существо - взаимодействуем
         elif not isinstance(entity, Rock):
             _pray_coordinate = path.popleft()
-            _pray = self.field.get_object(_pray_coordinate[0], _pray_coordinate[1])
+            _pray = self.field.get_object(
+                Coordinates(_pray_coordinate[0], _pray_coordinate[1])
+            )
             self.__meeting(entity, _pray)
 
     def __meeting(self, first_entity: Entity, second_entity: Entity) -> None:
@@ -30,8 +34,7 @@ class Action:
         Метод моделирует взаимодействие представителей пищевых цепочек
         """
         if (first_entity is isinstance(first_entity, Predator) and
-                second_entity is isinstance(second_entity, Herbivore) and
-                first_entity.successful_hunting < 3):
+                second_entity is isinstance(second_entity, Herbivore)):
             second_entity.health -= 2  # Хищник нападает на травоядное
             first_entity.health += 2
             first_entity.successful_hunting += 1
@@ -39,7 +42,7 @@ class Action:
                 self.field.delete(second_entity.coordinates)
 
         elif (first_entity is isinstance(first_entity, Herbivore) and
-              second_entity is isinstance(second_entity, (Grass, Tree))):
+              second_entity is isinstance(second_entity, Grass)):
             second_entity.health -= 5  # Травоядное ест траву
             first_entity.health += 2
             if second_entity.health == 0:

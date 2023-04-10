@@ -3,6 +3,8 @@ from typing import TypeVar, Type
 
 from action.PathFinding.currentNode import Node
 from instance_of_the_world.entitys import Entity
+from instance_of_the_world.simulation_objects.dinamic_objects import Herbivore
+from instance_of_the_world.simulation_objects.static_objects import Grass
 from map.coordinates import Coordinates
 from map.maps import Map
 from render.render import RenderField
@@ -41,13 +43,12 @@ class FindPath:
     def __init__(self, hunter: Entity = None,
                  pray=None, field: Map = None):
         self.__hunter: Entity = hunter
-        self.__pray: Type[Entity] = pray
+        self.__pray_class = pray
         self.__field: Map = field
         self.__visited_spot = set()
         self.__neighbours_queue = deque()
 
-        __coordinated = Node(self.__field, Coordinates(self.__hunter.coordinates.row,
-                                                       self.__hunter.coordinates.column))
+        __coordinated = Node(self.__field, self.__hunter.coordinates)
         self.__neighbours_queue.append(__coordinated)
 
     def finding_path(self):
@@ -62,17 +63,15 @@ class FindPath:
                 # Берем крайний левый адрес из очереди
                 self.__actual_node = self.__neighbours_queue.popleft()
                 self.__visited_spot.add(self.__actual_node)
+                print(self.__actual_node.point)
+                actual_object = self.__field.get_object(self.__actual_node.point)
 
                 # Если клетка пустая, то добавляем в очередь
-                if (self.__field.spot_is_empty(
-                    Coordinates(self.__actual_node.row,
-                                self.__actual_node.column)) or tray == 0):
+                if (self.__field.spot_is_empty(self.__actual_node) or tray == 0):
                     self.filling_queue(self.__actual_node)
                     tray += 1
                 # Проверяем что выбранная клетка является жертвой
-                elif (self.__field.get_object(self.__actual_node.row,
-                                              self.__actual_node.column).sprite
-                        == self.__pray.sprite):
+                elif isinstance(actual_object, self.__pray_class):
                     self.filling_queue(self.__actual_node)
                     path: deque = (self.__actual_node.
                                    create_path(self.__actual_node))
@@ -84,7 +83,22 @@ class FindPath:
             if (node not in self.__visited_spot and
                     self.__field.spot_is_empty(node)):
                 self.__neighbours_queue.append(node)
-            elif (isinstance(type(self.__field.spot_is_empty(node)),
-                             type(self.__pray))):
+            elif (isinstance(type(self.__field.get_object(node.point)),
+                             type(self.__pray_class))):
                 self.__neighbours_queue.append(node)
                 break
+
+m = Map(4, 4)
+
+h = Herbivore()
+g = Grass()
+g1 = Grass()
+
+m.add(Coordinates(4, 4), g1)
+m.add(Coordinates(3, 1), g)
+m.add(Coordinates(1, 1), h)
+
+r = FindPath(h, Grass, m)
+w = r.finding_path()
+print(w)
+

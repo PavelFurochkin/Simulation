@@ -29,11 +29,14 @@ class Map:
         """
         return position not in self.map
 
-    def get_object(self, x: int, y: int):
+    def move_object(self, entity: Entity, old_coordinates: Coordinates,
+                    new_coordinates: Coordinates):
+        self.delete(old_coordinates)
+        self.add(new_coordinates, entity)
 
-        coordinates = Coordinates(x, y)
-        if coordinates in self.map:
-            return self.map[coordinates]
+    def get_object(self, position: Coordinates):
+        if position in self.map:
+            return self.map[position]
         return None
 
     def delete(self, position: Coordinates) -> None:
@@ -45,11 +48,8 @@ class Map:
     def counting_population(self):
         population = []
         for spot in self.map:
-            entity: Entity = self.get_object(spot.row, spot.column)
+            entity: Entity = self.get_object(
+                Coordinates(spot.row, spot.column))
             if entity is not None:
                 population.append(entity)
         return population
-
-    def __iter__(self):
-        return iter(self.map)
-
