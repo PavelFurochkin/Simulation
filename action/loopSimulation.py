@@ -29,7 +29,7 @@ class LiveCycle:
 
     def __init__(self, map: Map):
         self.map = map
-        self.current_population = map.counting_population()
+        self.current_population = map.counting_population(map)
 
     def endless_loop(self):
         while not self.meaninglessness_of_being():
@@ -53,7 +53,7 @@ class LiveCycle:
 
     def meaninglessness_of_being(self):
         herbivore_population = 0
-        check_population: list = self.map.counting_population()
+        check_population: list = self.map.counting_population(self.map)
         for entity in check_population:
             if isinstance(entity, Herbivore):
                 herbivore_population += 1

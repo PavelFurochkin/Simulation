@@ -63,11 +63,10 @@ class FindPath:
                 # Берем крайний левый адрес из очереди
                 self.__actual_node = self.__neighbours_queue.popleft()
                 self.__visited_spot.add(self.__actual_node)
-                print(self.__actual_node.point)
                 actual_object = self.__field.get_object(self.__actual_node.point)
 
                 # Если клетка пустая, то добавляем в очередь
-                if (self.__field.spot_is_empty(self.__actual_node) or tray == 0):
+                if (self.__field.spot_is_empty(self.__actual_node.point) or tray == 0):
                     self.filling_queue(self.__actual_node)
                     tray += 1
                 # Проверяем что выбранная клетка является жертвой
@@ -87,18 +86,3 @@ class FindPath:
                              type(self.__pray_class))):
                 self.__neighbours_queue.append(node)
                 break
-
-m = Map(4, 4)
-
-h = Herbivore()
-g = Grass()
-g1 = Grass()
-
-m.add(Coordinates(4, 4), g1)
-m.add(Coordinates(3, 1), g)
-m.add(Coordinates(1, 1), h)
-
-r = FindPath(h, Grass, m)
-w = r.finding_path()
-print(w)
-

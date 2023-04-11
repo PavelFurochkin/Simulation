@@ -45,11 +45,14 @@ class Map:
         """
         self.map.pop(position, "на данной клетке нет существ.")
 
-    def counting_population(self):
+    def counting_population(self, map):
         population = []
-        for spot in self.map:
-            entity: Entity = self.get_object(
-                Coordinates(spot.row, spot.column))
+        for spot in map:
+            entity: Entity = map.get_object(spot)
             if entity is not None:
                 population.append(entity)
         return population
+
+    def __iter__(self):
+        return iter(self.map)
+

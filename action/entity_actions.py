@@ -18,9 +18,9 @@ class Action:
             for move in range(entity.spead):
                 if len(path) > 1:
                     step = path.popleft()
-                    self.field.move_object(entity, entity.coordinates, step)
-                else:
-                    break
+                    self.field.move_object(entity,
+                                           entity.coordinates, step)
+
             # Если на клетке допустимое существо - взаимодействуем
         elif not isinstance(entity, Rock):
             _pray_coordinate = path.popleft()
