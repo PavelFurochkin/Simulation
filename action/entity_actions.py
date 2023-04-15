@@ -1,10 +1,12 @@
 from collections import deque
+from time import sleep
 
-from instance_of_the_world.simulation_objects.static_objects import Grass, Tree, Rock
+from instance_of_the_world.simulation_objects.static_objects import Grass, Rock
 from instance_of_the_world.simulation_objects.dinamic_objects import Herbivore, Predator
 from instance_of_the_world.entitys import Entity
 from map.coordinates import Coordinates
 from map.maps import Map
+from render.render import RenderField
 
 
 class Action:
@@ -12,14 +14,18 @@ class Action:
     def __init__(self, map: Map):
         self.field = map
 
-    def make_move(self, entity: Entity, path: deque):
+    def make_move(self, entity: Entity, path: deque) -> None:
         # Делаем ход, если рядом нет цели
         if len(path) > 1:
             for move in range(entity.spead):
                 if len(path) > 1:
                     step = path.popleft()
                     self.field.move_object(entity,
-                                           entity.coordinates, step)
+                                           entity.coordinates,
+                                           Coordinates(step[0], step[1]))
+                    sleep(1)
+                    print('------------------')
+                    RenderField().render(self.field)
 
             # Если на клетке допустимое существо - взаимодействуем
         elif not isinstance(entity, Rock):
@@ -28,25 +34,28 @@ class Action:
                 Coordinates(_pray_coordinate[0], _pray_coordinate[1])
             )
             self.__meeting(entity, _pray)
+            RenderField().render(self.field)
+            print(f'{entity.sprite} атаковал {_pray.sprite}')
 
     def __meeting(self, first_entity: Entity, second_entity: Entity) -> None:
         """
         Метод моделирует взаимодействие представителей пищевых цепочек
         """
-        if (first_entity is isinstance(first_entity, Predator) and
-                second_entity is isinstance(second_entity, Herbivore)):
+        if (isinstance(first_entity, Predator) and
+                isinstance(second_entity, Herbivore)):
             second_entity.health -= 2  # Хищник нападает на травоядное
             first_entity.health += 2
-            first_entity.successful_hunting += 1
-            if second_entity.health == 0:
+            # first_entity.successful_hunting += 1 # Нереализованная механика при наличии размножения
+            if second_entity.health <= 0:
                 self.field.delete(second_entity.coordinates)
 
-        elif (first_entity is isinstance(first_entity, Herbivore) and
-              second_entity is isinstance(second_entity, Grass)):
+        elif (isinstance(first_entity, Herbivore) and
+              isinstance(second_entity, Grass)):
             second_entity.health -= 5  # Травоядное ест траву
             first_entity.health += 2
-            if second_entity.health == 0:
+            if second_entity.health <= 0:
                 self.field.delete(second_entity.coordinates)
+
 
         # Нереализованная механика при наличии размножения
         # elif (first_entity is isinstance(first_entity, Predator)

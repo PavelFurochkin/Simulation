@@ -1,6 +1,5 @@
 from typing import List
 
-from instance_of_the_world.simulation_objects.dinamic_objects import Predator
 from map.coordinates import Coordinates
 from instance_of_the_world.entitys import Entity
 
@@ -30,11 +29,19 @@ class Map:
         return position not in self.map
 
     def move_object(self, entity: Entity, old_coordinates: Coordinates,
-                    new_coordinates: Coordinates):
+                    new_coordinates: Coordinates) -> None:
+        """
+        Задает новые координаты существу, старые очищаются
+        :return: None
+        """
         self.delete(old_coordinates)
         self.add(new_coordinates, entity)
 
     def get_object(self, position: Coordinates):
+        """
+        Возвращает sprite существа, если клетка не пуста
+        :return: str or None
+        """
         if position in self.map:
             return self.map[position]
         return None
@@ -45,8 +52,12 @@ class Map:
         """
         self.map.pop(position, "на данной клетке нет существ.")
 
-    def counting_population(self, map):
-        population = []
+    def counting_population(self, map) -> List:
+        """
+        Собирает всех существ на карте в один список
+        :return: list
+        """
+        population: list = []
         for spot in map:
             entity: Entity = map.get_object(spot)
             if entity is not None:
@@ -55,4 +66,3 @@ class Map:
 
     def __iter__(self):
         return iter(self.map)
-

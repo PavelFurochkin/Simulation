@@ -8,5 +8,5 @@ class Grass(Entity):
                  sprite='Gr'):
         super().__init__(coordinates)
         self.SPEAD: int = 0
-        self.health: int = 100
+        self.health: int = 1
         self.sprite = sprite

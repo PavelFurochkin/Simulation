@@ -1,13 +1,8 @@
 from collections import deque
-from typing import TypeVar, Type
 
 from action.PathFinding.currentNode import Node
 from instance_of_the_world.entitys import Entity
-from instance_of_the_world.simulation_objects.dinamic_objects import Herbivore
-from instance_of_the_world.simulation_objects.static_objects import Grass
-from map.coordinates import Coordinates
 from map.maps import Map
-from render.render import RenderField
 
 
 class FindPath:
@@ -41,7 +36,7 @@ class FindPath:
     """
 
     def __init__(self, hunter: Entity = None,
-                 pray=None, field: Map = None):
+                 pray=None, field: Map = None) -> None:
         self.__hunter: Entity = hunter
         self.__pray_class = pray
         self.__field: Map = field
@@ -51,12 +46,11 @@ class FindPath:
         __coordinated = Node(self.__field, self.__hunter.coordinates)
         self.__neighbours_queue.append(__coordinated)
 
-    def finding_path(self):
+    def finding_path(self) -> deque:
         '''
         Метод для поиска пути от охотника до цели
         :return:
         '''
-        RenderField().render(self.__field)
         tray = 0
         while True:
             if len(self.__neighbours_queue) > 0:
@@ -76,7 +70,7 @@ class FindPath:
                                    create_path(self.__actual_node))
                     return path
 
-    def filling_queue(self, spot: Node):
+    def filling_queue(self, spot: Node) -> None:
         nodes = spot.extend_node()
         for node in nodes:
             if (node not in self.__visited_spot and

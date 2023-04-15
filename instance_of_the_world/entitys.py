@@ -1,5 +1,4 @@
 from abc import ABC
-from random import randint
 
 from map.coordinates import Coordinates
 
