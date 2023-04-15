@@ -43,7 +43,7 @@ class Action:
         """
         if (isinstance(first_entity, Predator) and
                 isinstance(second_entity, Herbivore)):
-            second_entity.health -= 2  # Хищник нападает на травоядное
+            second_entity.health -= first_entity.fight_power  # Хищник нападает на травоядное
             first_entity.health += 2
             # first_entity.successful_hunting += 1 # Нереализованная механика при наличии размножения
             if second_entity.health <= 0:
@@ -51,7 +51,7 @@ class Action:
 
         elif (isinstance(first_entity, Herbivore) and
               isinstance(second_entity, Grass)):
-            second_entity.health -= 5  # Травоядное ест траву
+            second_entity.health -= first_entity.fight_power  # Травоядное ест траву
             first_entity.health += 2
             if second_entity.health <= 0:
                 self.field.delete(second_entity.coordinates)

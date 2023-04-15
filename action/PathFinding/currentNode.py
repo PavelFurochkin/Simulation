@@ -77,3 +77,9 @@ class Node:
         path.insert(0, (current_node.point.row, current_node.point.column))
         path.popleft()
         return path
+
+    # def __eq__(self, other):
+    #     return self.point == other.point
+    #
+    # def __hash__(self):
+    #     return hash( self.point)

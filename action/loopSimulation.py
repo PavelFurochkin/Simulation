@@ -3,6 +3,7 @@ from time import sleep
 
 from action.PathFinding.finding_path import FindPath
 from action.entity_actions import Action
+from action.entity_spawn.entity_spawn import SpawnEntity
 from instance_of_the_world.simulation_objects.dinamic_objects import Herbivore, Predator
 from instance_of_the_world.simulation_objects.static_objects import Grass, Tree
 from map.maps import Map
@@ -90,7 +91,6 @@ class LiveCycle:
                     sleep(2)
             elif not isinstance(__custom_input, int):
                 print('число шагов должнобыть целым числом')
-
             if msvcrt.kbhit():
                 __user_press_key = msvcrt.getwch()
                 if __user_press_key == self.__return_in_endless_loop:
@@ -123,14 +123,23 @@ class LiveCycle:
         Проверяет остались ли на карте травоядные
         :return: bool
         """
-        herbivore_population = 0
+        __herbivore_population = 0
+        __grass_population = 0
         check_population: list = self.map.counting_population(self.map)
         for entity in check_population:
             if isinstance(entity, Herbivore):
-                herbivore_population += 1
+                __herbivore_population += 1
+            if isinstance(entity, Grass):
+                __grass_population += 1
 
-        if herbivore_population == 0:
+        if __herbivore_population == 0:
             self.continue_simulation = False
             print('Симуляция завершена')
             return True
+        else:
+            __grass_balance = __grass_population / __herbivore_population
+            if __grass_balance < 3:
+                for i in range(__herbivore_population):
+                    each = Grass()
+                    SpawnEntity(self.map).add_to_map(each, 1)
         return False
