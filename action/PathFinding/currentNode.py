@@ -78,8 +78,8 @@ class Node:
         path.popleft()
         return path
 
-    # def __eq__(self, other):
-    #     return self.point == other.point
-    #
-    # def __hash__(self):
-    #     return hash( self.point)
+    def __eq__(self, other):
+        return self.point == other.point
+
+    def __hash__(self):
+        return hash(self.point)

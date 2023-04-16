@@ -5,7 +5,7 @@ from action.PathFinding.finding_path import FindPath
 from action.entity_actions import Action
 from action.entity_spawn.entity_spawn import SpawnEntity
 from instance_of_the_world.simulation_objects.dinamic_objects import Herbivore, Predator
-from instance_of_the_world.simulation_objects.static_objects import Grass, Tree
+from instance_of_the_world.simulation_objects.static_objects import Grass
 from map.maps import Map
 from render.render import RenderField
 
@@ -42,7 +42,6 @@ class LiveCycle:
     __animal_step(self, hunter, pray)
         метод для выбора действия существа в зависимотри от местоположения цели
     """
-
     def __init__(self, map: Map):
         self.map = map
         self.current_population = map.counting_population(map)
@@ -105,7 +104,7 @@ class LiveCycle:
         for entity in self.current_population:
             if isinstance(entity, Predator):
                 self.__animal_step(entity, Herbivore)
-            if isinstance(entity, Herbivore):
+            if isinstance(entity, Herbivore) and entity.health > 0:
                 self.__animal_step(entity, Grass)
 
     def __animal_step(self, hunter, pray) -> None:

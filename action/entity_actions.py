@@ -1,7 +1,7 @@
 from collections import deque
 from time import sleep
 
-from instance_of_the_world.simulation_objects.static_objects import Grass, Rock
+from instance_of_the_world.simulation_objects.static_objects import Grass, Rock, Tree
 from instance_of_the_world.simulation_objects.dinamic_objects import Herbivore, Predator
 from instance_of_the_world.entitys import Entity
 from map.coordinates import Coordinates
@@ -16,7 +16,7 @@ class Action:
 
     def make_move(self, entity: Entity, path: deque) -> None:
         # Делаем ход, если рядом нет цели
-        if len(path) > 1:
+        if path is not None and len(path) > 1:
             for move in range(entity.spead):
                 if len(path) > 1:
                     step = path.popleft()
@@ -28,7 +28,7 @@ class Action:
                     RenderField().render(self.field)
 
             # Если на клетке допустимое существо - взаимодействуем
-        elif not isinstance(entity, Rock):
+        elif path is not None and not isinstance(entity, (Rock, Tree)):
             _pray_coordinate = path.popleft()
             _pray = self.field.get_object(
                 Coordinates(_pray_coordinate[0], _pray_coordinate[1])
@@ -36,6 +36,9 @@ class Action:
             self.__meeting(entity, _pray)
             RenderField().render(self.field)
             print(f'{entity.sprite} атаковал {_pray.sprite}')
+
+        else:
+            pass
 
     def __meeting(self, first_entity: Entity, second_entity: Entity) -> None:
         """
@@ -55,8 +58,6 @@ class Action:
             first_entity.health += 2
             if second_entity.health <= 0:
                 self.field.delete(second_entity.coordinates)
-
-
         # Нереализованная механика при наличии размножения
         # elif (first_entity is isinstance(first_entity, Predator)
         #         and second_entity is isinstance(second_entity, Predator)

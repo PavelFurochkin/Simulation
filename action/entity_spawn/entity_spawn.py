@@ -46,10 +46,15 @@ class SpawnEntity():
     def add_to_map(self, entity: Entity, quantity: int) -> None:
         redy_to_add = self.__create(entity, quantity)
         # self.__choose_a_gender(redy_to_add, entity) # Нереализованная механика при наличии размножения
-        for each in range(len(redy_to_add)):
-            coord: Coordinates = (
-                Coordinates(row=randint(1, self.map.row_map),
-                            column=randint(1, self.map.column_map))
-            )
-            self.map.add(coord, entity)
-
+        available_entity = len(redy_to_add)
+        while available_entity != 0:
+            for each in range(available_entity):
+                coord: Coordinates = (
+                    Coordinates(row=randint(1, self.map.row_map),
+                                column=randint(1, self.map.column_map))
+                )
+                if self.map.spot_is_empty(coord):
+                    self.map.add(coord, entity)
+                    available_entity -= 1
+                else:
+                    continue

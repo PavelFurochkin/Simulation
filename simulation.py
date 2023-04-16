@@ -15,7 +15,7 @@ class Simulation:
         __rock = int(input('Введите число камней: '))
         __population = [__herbivore, __predator, __grass, __tree, __rock]
         __types = [Herbivore, Predator, Grass, Tree, Rock]
-        map: Map = Map(10, 10)
+        map: Map = Map(12, 12)
 
         for entity_type, count in zip(__types, __population):
             for i in range(count):

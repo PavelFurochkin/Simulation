@@ -52,31 +52,30 @@ class FindPath:
         :return:
         '''
         tray = 0
-        while True:
-            if len(self.__neighbours_queue) > 0:
-                # Берем крайний левый адрес из очереди
-                self.__actual_node = self.__neighbours_queue.popleft()
-                self.__visited_spot.add(self.__actual_node)
-                actual_object = self.__field.get_object(self.__actual_node.point)
-
-                # Если клетка пустая, то добавляем в очередь
-                if (self.__field.spot_is_empty(self.__actual_node.point) or tray == 0):
-                    self.filling_queue(self.__actual_node)
-                    tray += 1
-                # Проверяем что выбранная клетка является жертвой
-                elif isinstance(actual_object, self.__pray_class):
-                    self.filling_queue(self.__actual_node)
-                    path: deque = (self.__actual_node.
-                                   create_path(self.__actual_node))
-                    return path
+        while len(self.__neighbours_queue) > 0:
+            # Берем крайний левый адрес из очереди
+            self.__actual_node = self.__neighbours_queue.popleft()
+            self.__visited_spot.add(self.__actual_node)
+            actual_object = self.__field.get_object(self.__actual_node.point)
+            # Если клетка пустая, то добавляем в очередь
+            if (self.__field.spot_is_empty(self.__actual_node.point) or
+                    tray == 0):
+                self.filling_queue(self.__actual_node)
+                tray += 1
+            # Проверяем что выбранная клетка является жертвой
+            elif isinstance(actual_object, self.__pray_class):
+                self.filling_queue(self.__actual_node)
+                path: deque = (self.__actual_node.
+                               create_path(self.__actual_node))
+                return path
 
     def filling_queue(self, spot: Node) -> None:
         nodes = spot.extend_node()
         for node in nodes:
             if (node not in self.__visited_spot and
-                    self.__field.spot_is_empty(node)):
+                    self.__field.spot_is_empty(node.point)):
                 self.__neighbours_queue.append(node)
-            elif (isinstance(type(self.__field.get_object(node.point)),
-                             type(self.__pray_class))):
+            elif (isinstance(self.__field.get_object(node.point),
+                             self.__pray_class)):
                 self.__neighbours_queue.append(node)
                 break
