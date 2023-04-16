@@ -1,8 +1,8 @@
 from collections import deque
 from time import sleep
 
-from instance_of_the_world.simulation_objects.static_objects import Grass, Rock, Tree
-from instance_of_the_world.simulation_objects.dinamic_objects import Herbivore, Predator
+from instance_of_the_world import Grass, Rock, Tree
+from instance_of_the_world import Herbivore, Predator
 from instance_of_the_world.entitys import Entity
 from map.coordinates import Coordinates
 from map.maps import Map

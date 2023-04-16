@@ -4,8 +4,8 @@ from time import sleep
 from action.PathFinding.finding_path import FindPath
 from action.entity_actions import Action
 from action.entity_spawn.entity_spawn import SpawnEntity
-from instance_of_the_world.simulation_objects.dinamic_objects import Herbivore, Predator
-from instance_of_the_world.simulation_objects.static_objects import Grass
+from instance_of_the_world import Herbivore, Predator
+from instance_of_the_world import Grass
 from map.maps import Map
 from render.render import RenderField
 

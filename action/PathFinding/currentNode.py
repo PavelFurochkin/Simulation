@@ -45,17 +45,20 @@ class Node:
         List
             список доступных соседних клеток
         """
+        # Список соседних клеток, с которыми можем взаимодействовать
         neighbours_node: List[tuple] = [
             (-1, -1), (0, -1), (1, -1), (1, 0),
-            (1, 1), (0, 1), (-1, 1), (-1, 0)  # Список соседних клеток, с которыми можем взаимодействовать
+            (1, 1), (0, 1), (-1, 1), (-1, 0)
         ]
         children: List = []
         for neighbour in neighbours_node:
-            if ((0 < self.point.row + neighbour[0] < self.__map.row_map + 1) and
-                    (0 < self.point.column + neighbour[1] < self.__map.column_map + 1)):
+            if ((0 < self.point.row + neighbour[0] < self.__map.row_map + 1)
+                    and (0 < self.point.column + neighbour[1] <
+                         self.__map.column_map + 1)):
                 right_neighbor = Node(self.__map,
-                                      (Coordinates(self.point.row + neighbour[0],
-                                                   self.point.column + neighbour[1]))
+                                      (Coordinates(
+                                          self.point.row + neighbour[0],
+                                          self.point.column + neighbour[1]))
                                       )
                 children.append(right_neighbor)
         for child in children:

@@ -1,10 +1,11 @@
-from map.coordinates import Coordinates
 from instance_of_the_world.creatures import Creature
+from map.coordinates import Coordinates
 
 
 class Predator(Creature):
     def __init__(self, coordinates: Coordinates = Coordinates(row=0, column=0),
-                 spead: int = 3, health: int = 10, fight_power: int = 6, sprite='Pr'):
+                 spead: int = 3, health: int = 10, fight_power: int = 6,
+                 sprite='Pr'):
         super().__init__(coordinates, spead, health)
         self.health = health
         self.spead = spead

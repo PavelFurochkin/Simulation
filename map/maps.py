@@ -1,7 +1,8 @@
 from typing import List
 
-from map.coordinates import Coordinates
 from instance_of_the_world.entitys import Entity
+
+from map.coordinates import Coordinates
 
 
 class Map:

@@ -1,8 +1,8 @@
-
 from action.entity_spawn.entity_spawn import SpawnEntity
 from action.loopSimulation import LiveCycle
-from instance_of_the_world.simulation_objects.dinamic_objects import Predator, Herbivore
-from instance_of_the_world.simulation_objects.static_objects import Grass, Tree, Rock
+
+from instance_of_the_world import Predator, Herbivore
+from instance_of_the_world import Grass, Tree, Rock
 from map.maps import Map
 
 
