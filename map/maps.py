@@ -15,6 +15,9 @@ class Map:
 
         self.map = {}
 
+    def matrix_size(self):
+        return self.row_map * self.column_map
+
     def add(self, position: Coordinates, entity: Entity) -> None:
         """
         Метод добавляет сушество по заданной координате в словарь
@@ -53,14 +56,14 @@ class Map:
         """
         self.map.pop(position, "на данной клетке нет существ.")
 
-    def counting_population(self, map) -> List:
+    def counting_population(self) -> List:
         """
         Собирает всех существ на карте в один список
         :return: list
         """
         population: list = []
-        for spot in map:
-            entity: Entity = map.get_object(spot)
+        for spot in self.map:
+            entity: Entity = self.get_object(spot)
             if entity is not None:
                 population.append(entity)
         return population

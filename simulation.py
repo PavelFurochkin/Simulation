@@ -1,27 +1,19 @@
-from action.entity_spawn.entity_spawn import SpawnEntity
-from action.loopSimulation import LiveCycle
-
-from instance_of_the_world import Predator, Herbivore
-from instance_of_the_world import Grass, Tree, Rock
+from action import GrassSpawn, HerbivoreSpawn, PredatorSpawn, RockSpawn, TreeSpawn
+from action.turn_actions.loopSimulation import LiveCycle
 from map.maps import Map
 
 
 class Simulation:
-    def __init__(self):
-        __herbivore = int(input('Введите число травоядных: '))
-        __predator = int(input('Введите число хищников: '))
-        __grass = int(input('Введите число травы: '))
-        __tree = int(input('Введите число деревьев: '))
-        __rock = int(input('Введите число камней: '))
-        __population = [__herbivore, __predator, __grass, __tree, __rock]
-        __types = [Herbivore, Predator, Grass, Tree, Rock]
-        map: Map = Map(12, 12)
-
-        for entity_type, count in zip(__types, __population):
-            for i in range(count):
-                each = entity_type()  # создание нового объекта каждый раз
-                SpawnEntity(map).add_to_map(each, 1)
-        LiveCycle(map).endless_loop()
+    def __init__(self, map: Map = Map(8, 8)):
+        self.map = map
+        self.init_action = [GrassSpawn(self.map),
+                            HerbivoreSpawn(self.map),
+                            PredatorSpawn(self.map),
+                            RockSpawn(self.map),
+                            TreeSpawn(self.map)]
+        for action in self.init_action:
+            action.perform()
+        LiveCycle(map).perform()
 
 
 if __name__ == '__main__':

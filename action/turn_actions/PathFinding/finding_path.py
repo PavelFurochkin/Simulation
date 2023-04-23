@@ -1,6 +1,6 @@
 from collections import deque
 
-from action.PathFinding.currentNode import Node
+from action.turn_actions.PathFinding.currentNode import Node
 from instance_of_the_world.entitys import Entity
 from map.maps import Map
 

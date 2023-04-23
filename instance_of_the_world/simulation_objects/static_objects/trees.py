@@ -3,10 +3,5 @@ from map.coordinates import Coordinates
 
 
 class Tree(Entity):
-
-    def __init__(self, coordinates: Coordinates = Coordinates(row=0, column=0),
-                 sprite='Tr'):
-        super().__init__(coordinates)
-        self.SPEAD: int = 0
-        self.health: int = 200
-        self.sprite = sprite
+    def __init__(self, coordinates: Coordinates, sprite='Tr'):
+        super().__init__(coordinates, sprite)
